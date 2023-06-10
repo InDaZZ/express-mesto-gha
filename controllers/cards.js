@@ -34,43 +34,55 @@ const createCard = (req, res) => {
 };
 const deletCard = (req, res) => {
   Card.findByIdAndDelete(req.params.cardId)
-    .then((card) => res.send({ data: card }))
+    .then((card) => {
+      if (!card) {
+        return res.status(ERROR_NOT_FOUND).send({ message: 'Некоректный запрос' });
+      }
+      return res.send({ data: card });
+    })
     .catch((err) => {
+      console.log(err.name)
       if (err.name === 'ValidationError') {
-        res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
+        return res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
       }
       if (err.name === 'CastError') {
-        res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
+        return res.status(ERROR_BAD_REQUEST).send({ message: 'Запрашиваемый пользователь не найден' });
       }
-      res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
+      return res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 const pushLike = (req, res) => {
   const owner = req.user;
   Card.findByIdAndUpdate(req.params.cardId, { $addToSet: { likes: owner } }, { new: true })
-    .then((card) => res.send({ data: card }))
+    .then((card) => {
+      console.log(card._id);
+      return res.send({ data: card });
+    })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
+      console.log(err.name);
+      if (err.name === 'TypeError') {
+        return res.status(ERROR_NOT_FOUND).send({ message: 'Некоректный запрос' });
       }
       if (err.name === 'CastError') {
-        res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
+        return res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный id карточки' });
       }
-      res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
+      return res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 const deletLike = (req, res) => {
   const owner = req.user._id;
   Card.findByIdAndUpdate(req.params.cardId, { $pull: { likes: owner } }, { new: true })
-    .then((card) => res.send({ data: card }))
+    .then((card) => {
+      if (!card) {
+        return res.status(ERROR_NOT_FOUND).send({ message: 'Некоректный запрос' });
+      }
+      return res.send({ data: card });
+    })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
-      }
       if (err.name === 'CastError') {
-        res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
+        return res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный id карточки' });
       }
-      res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
+      return res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 

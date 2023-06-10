@@ -20,15 +20,22 @@ const getUsers = (req, res) => {
 const getUser = (req, res) => {
   const { userId } = req.params;
   User.findById(userId)
-    .then((user) => res.send({ data: user }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
-      }
-      if (err.name === 'CastError') {
+    .then((user) => {
+      console.log(user);
+      if (!user) {
         res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
       }
-      res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
+      return res.send({ data: user });
+    })
+    .catch((err) => {
+      console.log(err.name);
+      if (err.name === 'ValidationError') {
+        return res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
+      }
+      if (err.name === 'CastError') {
+        return res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
+      }
+      return res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 const creatUser = (req, res) => {
@@ -49,8 +56,17 @@ const updateUser = (req, res) => {
   const { name, about } = req.body;
   const userId = req.user._id;
   User.findByIdAndUpdate(userId, { name, about }, { new: true })
-    .then((user) => res.send({ data: user }))
+    .then((user) => {
+      console.log(user.name.length);
+      if (user.name.length < 2 || user.name.length > 30 || user.about.length < 2
+        || user.about.length > 30) {
+        return res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
+      }
+
+      return res.send({ data: user });
+    })
     .catch((err) => {
+      console.log(err.name);
       if (err.name === 'ValidationError') {
         res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
       }
