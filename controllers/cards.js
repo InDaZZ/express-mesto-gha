@@ -41,7 +41,7 @@ const deletCard = (req, res) => {
       return res.send({ data: card });
     })
     .catch((err) => {
-      console.log(err.name)
+      console.log(err.name);
       if (err.name === 'ValidationError') {
         return res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
       }
