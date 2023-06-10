@@ -9,12 +9,12 @@ const getCards = (req, res) => {
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.send(`Ошибка ${ERROR_BAD_REQUEST}`);
+        res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
       }
       if (err.name === 'CastError') {
-        res.status(ERROR_NOT_FOUND).send(`Ошибка ${ERROR_NOT_FOUND}`);
+        res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
       }
-      res.status(500).send(`Ошибка ${ERROR_INTERNAL_SERVER_ERROR}`);
+      res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 const createCard = (req, res) => {
@@ -24,12 +24,12 @@ const createCard = (req, res) => {
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.send(`Ошибка ${ERROR_BAD_REQUEST}`);
+        res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
       }
       if (err.name === 'CastError') {
-        res.status(ERROR_NOT_FOUND).send(`Ошибка ${ERROR_NOT_FOUND}`);
+        res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
       }
-      res.status(500).send(`Ошибка ${ERROR_INTERNAL_SERVER_ERROR}`);
+      res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 const deletCard = (req, res) => {
@@ -37,12 +37,12 @@ const deletCard = (req, res) => {
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.send(`Ошибка ${ERROR_BAD_REQUEST}`);
+        res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
       }
       if (err.name === 'CastError') {
-        res.status(ERROR_NOT_FOUND).send(`Ошибка ${ERROR_NOT_FOUND}`);
+        res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
       }
-      res.status(500).send(`Ошибка ${ERROR_INTERNAL_SERVER_ERROR}`);
+      res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 const pushLike = (req, res) => {
@@ -51,12 +51,12 @@ const pushLike = (req, res) => {
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.send(`Ошибка ${ERROR_BAD_REQUEST}`);
+        res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
       }
       if (err.name === 'CastError') {
-        res.status(ERROR_NOT_FOUND).send(`Ошибка ${ERROR_NOT_FOUND}`);
+        res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
       }
-      res.status(500).send(`Ошибка ${ERROR_INTERNAL_SERVER_ERROR}`);
+      res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 const deletLike = (req, res) => {
@@ -65,12 +65,12 @@ const deletLike = (req, res) => {
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.send(`Ошибка ${ERROR_BAD_REQUEST}`);
+        res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
       }
       if (err.name === 'CastError') {
-        res.status(ERROR_NOT_FOUND).send(`Ошибка ${ERROR_NOT_FOUND}`);
+        res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
       }
-      res.status(500).send(`Ошибка ${ERROR_INTERNAL_SERVER_ERROR}`);
+      res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 

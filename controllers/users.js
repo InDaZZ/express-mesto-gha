@@ -9,12 +9,12 @@ const getUsers = (req, res) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.send(`Ошибка ${ERROR_BAD_REQUEST}`);
+        res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
       }
       if (err.name === 'CastError') {
-        res.status(ERROR_NOT_FOUND).send(`Ошибка ${ERROR_NOT_FOUND}`);
+        res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
       }
-      res.status(500).send(`Ошибка ${ERROR_INTERNAL_SERVER_ERROR}`);
+      res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 const getUser = (req, res) => {
@@ -23,12 +23,12 @@ const getUser = (req, res) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.send(`Ошибка ${ERROR_BAD_REQUEST}`);
+        res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
       }
       if (err.name === 'CastError') {
-        res.status(ERROR_NOT_FOUND).send(`Ошибка ${ERROR_NOT_FOUND}`);
+        res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
       }
-      res.status(500).send(`Ошибка ${ERROR_INTERNAL_SERVER_ERROR}`);
+      res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 const creatUser = (req, res) => {
@@ -37,12 +37,12 @@ const creatUser = (req, res) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.send(`Ошибка ${ERROR_BAD_REQUEST}`);
+        res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
       }
       if (err.name === 'CastError') {
-        res.status(ERROR_NOT_FOUND).send(`Ошибка ${ERROR_NOT_FOUND}`);
+        res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
       }
-      res.status(500).send(`Ошибка ${ERROR_INTERNAL_SERVER_ERROR}`);
+      res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 const updateUser = (req, res) => {
@@ -52,12 +52,12 @@ const updateUser = (req, res) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.send(`Ошибка ${ERROR_BAD_REQUEST}`);
+        res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
       }
       if (err.name === 'CastError') {
-        res.status(ERROR_NOT_FOUND).send(`Ошибка ${ERROR_NOT_FOUND}`);
+        res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
       }
-      res.status(500).send(`Ошибка ${ERROR_INTERNAL_SERVER_ERROR}`);
+      res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 const updateUserAvatar = (req, res) => {
@@ -67,12 +67,12 @@ const updateUserAvatar = (req, res) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.send(`Ошибка ${ERROR_BAD_REQUEST}`);
+        res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
       }
       if (err.name === 'CastError') {
-        res.status(ERROR_NOT_FOUND).send(`Ошибка ${ERROR_NOT_FOUND}`);
+        res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
       }
-      res.status(500).send(`Ошибка ${ERROR_INTERNAL_SERVER_ERROR}`);
+      res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 
