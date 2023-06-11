@@ -9,27 +9,27 @@ const getCards = (req, res) => {
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
+        return res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
       }
       if (err.name === 'CastError') {
-        res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
+        return res.status(ERROR_BAD_REQUEST).send({ message: 'Переданы невалидные данные' });
       }
-      res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
+      return res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 const createCard = (req, res) => {
   const { name, link } = req.body;
   const owner = req.user;
   Card.create({ name, link, owner })
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.status(201).send({ data: card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
+        return res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
       }
       if (err.name === 'CastError') {
-        res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
+        return res.status(ERROR_NOT_FOUND).send({ message: 'Переданы невалидные данные' });
       }
-      res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
+      return res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 const deletCard = (req, res) => {
@@ -46,7 +46,7 @@ const deletCard = (req, res) => {
         return res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
       }
       if (err.name === 'CastError') {
-        return res.status(ERROR_BAD_REQUEST).send({ message: 'Запрашиваемый пользователь не найден' });
+        return res.status(ERROR_BAD_REQUEST).send({ message: 'Переданы невалидные данные' });
       }
       return res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
@@ -64,7 +64,7 @@ const pushLike = (req, res) => {
         return res.status(ERROR_NOT_FOUND).send({ message: 'Некоректный запрос' });
       }
       if (err.name === 'CastError') {
-        return res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный id карточки' });
+        return res.status(ERROR_BAD_REQUEST).send({ message: 'Переданы невалидные данные' });
       }
       return res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
@@ -80,7 +80,7 @@ const deletLike = (req, res) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        return res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный id карточки' });
+        return res.status(ERROR_BAD_REQUEST).send({ message: 'Переданы невалидные данные' });
       }
       return res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });

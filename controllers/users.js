@@ -7,15 +7,7 @@ const ERROR_INTERNAL_SERVER_ERROR = 500;
 const getUsers = (req, res) => {
   User.find({})
     .then((user) => res.send({ data: user }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
-      }
-      if (err.name === 'CastError') {
-        res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
-      }
-      res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
-    });
+    .catch(() => res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' }));
 };
 const getUser = (req, res) => {
   const { userId } = req.params;
@@ -23,7 +15,7 @@ const getUser = (req, res) => {
     .then((user) => {
       console.log(user);
       if (!user) {
-        res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
+        return res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
       }
       return res.send({ data: user });
     })
@@ -33,7 +25,7 @@ const getUser = (req, res) => {
         return res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
       }
       if (err.name === 'CastError') {
-        return res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
+        return res.status(ERROR_BAD_REQUEST).send({ message: 'Переданы невалидные данные' });
       }
       return res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
@@ -41,54 +33,49 @@ const getUser = (req, res) => {
 const creatUser = (req, res) => {
   const { name, about, avatar } = req.body;
   User.create({ name, about, avatar })
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.status(201).send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
+        return res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
       }
       if (err.name === 'CastError') {
-        res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
+        return res.status(ERROR_BAD_REQUEST).send({ message: 'Переданы невалидные данные' });
       }
-      res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
+      return res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 const updateUser = (req, res) => {
   const { name, about } = req.body;
   const userId = req.user._id;
-  User.findByIdAndUpdate(userId, { name, about }, { new: true })
+  User.findByIdAndUpdate(userId, { name, about }, { new: true, runValidators: true })
     .then((user) => {
       console.log(user.name.length);
-      if (user.name.length < 2 || user.name.length > 30 || user.about.length < 2
-        || user.about.length > 30) {
-        return res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
-      }
-
       return res.send({ data: user });
     })
     .catch((err) => {
       console.log(err.name);
       if (err.name === 'ValidationError') {
-        res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
+        return res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
       }
       if (err.name === 'CastError') {
-        res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
+        return res.status(ERROR_BAD_REQUEST).send({ message: 'Переданы невалидные данные' });
       }
-      res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
+      return res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 const updateUserAvatar = (req, res) => {
   const { avatar } = req.body;
   const userId = req.user._id;
-  User.findByIdAndUpdate(userId, { avatar }, { new: true })
+  User.findByIdAndUpdate(userId, { avatar }, { new: true, runValidators: true })
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
+        return res.status(ERROR_BAD_REQUEST).send({ message: 'Некоректный запрос' });
       }
       if (err.name === 'CastError') {
-        res.status(ERROR_NOT_FOUND).send({ message: 'Запрашиваемый пользователь не найден' });
+        return res.status(ERROR_BAD_REQUEST).send({ message: 'Переданы невалидные данные' });
       }
-      res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
+      return res.status(ERROR_INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 
