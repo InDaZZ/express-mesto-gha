@@ -1,6 +1,7 @@
 const Card = require('../models/card');
 const NotFoundError = require('../error/not-found-err');
 const BadRequest = require('../error/bad-request-err');
+const RejectedErr = require('../error/rejected-err');
 
 const getCards = (req, res, next) => {
   Card.find({})
@@ -33,6 +34,9 @@ const createCard = (req, res, next) => {
 const deletCard = (req, res, next) => {
   Card.findByIdAndDelete(req.params.cardId)
     .then((card) => {
+      if (card.owner._id.toString() !== req.user._id.toString()) {
+        throw new RejectedErr('Нельзя удалить карточку другого пользователя');
+      }
       if (!card) {
         throw new NotFoundError('Некоректный запрос');
       }
@@ -54,6 +58,9 @@ const pushLike = (req, res, next) => {
   Card.findByIdAndUpdate(req.params.cardId, { $addToSet: { likes: owner } }, { new: true })
     .then((card) => {
       console.log(card._id);
+      if (card.owner._id.toString() !== req.user._id.toString()) {
+        throw new RejectedErr('Вы не можете удалить карточку другого пользователя');
+      }
       return res.send({ data: card });
     })
     .catch((err) => {

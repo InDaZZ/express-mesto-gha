@@ -75,7 +75,7 @@ const creatUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        // Обработка ошибки
+        next(new Emailexists('Email уже исользуется'));
       }
       if (err.name === 'ValidationError') {
         next(new BadRequest('Некоректный запрос'));
