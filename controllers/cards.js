@@ -64,6 +64,9 @@ const pushLike = (req, res, next) => {
       if (err.name === 'CastError') {
         next(new NotFoundError('Переданы невалидные данные'));
       }
+      if (err.name === 'TypeError') {
+        next(new NotFoundError('Переданы невалидные данные'));
+      }
       next(err);
     });
 };

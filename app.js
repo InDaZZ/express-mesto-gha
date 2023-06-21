@@ -18,9 +18,9 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.use(errorsCelebrate());
-
 app.use('/', router);
+
+app.use(errorsCelebrate());
 
 app.use(errHandler);
 

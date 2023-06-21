@@ -65,7 +65,13 @@ const creatUser = (req, res, next) => {
     }))
     .then((user) => {
       console.log(user);
-      return res.status(201).send({ data: user });
+      return res.status(201).send({
+        email: user.email,
+        name: user.name,
+        about: user.about,
+        avatar: user.avatar,
+        id: user._id,
+      });
     })
     .catch((err) => {
       if (err.code === 11000) {
