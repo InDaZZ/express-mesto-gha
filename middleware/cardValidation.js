@@ -10,7 +10,7 @@ const createCardValidation = celebrate({
 });
 
 const cardIdValidation = celebrate({
-  params: Joi.object().keys({ cardId: Joi.string().required() }),
+  params: Joi.object().keys({ cardId: Joi.string().required().hex() }),
 });
 
 module.exports = {
