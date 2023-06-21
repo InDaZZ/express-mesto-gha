@@ -1,11 +1,5 @@
 const errorHandler = (err, req, res, next) => {
-  console.log(err.message);
-  if (err.message === 'Validation failed') {
-    res.status(400)
-      .send({
-        message: err.message,
-      });
-  }
+  console.log(err);
   const { statusCode = 500, message } = err;
   res.status(statusCode)
     .send({
