@@ -32,7 +32,6 @@ const createCard = (req, res, next) => {
     });
 };
 const deletCard = (req, res, next) => {
-  const id = req.params.cardId;
   Card.findById(req.params.cardId)
     .then((card) => {
       if (!card) {
@@ -42,8 +41,8 @@ const deletCard = (req, res, next) => {
       if (card.owner.toString() !== req.user._id.toString()) {
         throw new RejectedErr('Нельзя удалить карточку другого пользователя');
       }
-      Card.deleteOne({ id });
-      return res.send({ data: card });
+      res.send({ data: card });
+      return Card.deleteOne(card._id);
     })
     .catch((err) => {
       console.log(err.name);
