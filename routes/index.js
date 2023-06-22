@@ -10,17 +10,17 @@ const signupRouter = require('./signup');
 
 const auth = require('../middleware/auth');
 
-const ERROR_NOT_FOUND = 404;
+const NotFoundError = require('../error/not-found-err');
 
 router.use('/', signinRouter);
 router.use('/', signupRouter);
 
-router.use('/', auth);
+router.use(auth);
 
 router.use('/', userRouter);
 router.use('/', cardsRouter);
-router.use('*', (req, res) => {
-  res.status(ERROR_NOT_FOUND).send({ message: 'Страница не найдена' });
+router.use('*', (req, res, next) => {
+  next(new NotFoundError('Маршрут не найден'));
 });
 
 module.exports = router;

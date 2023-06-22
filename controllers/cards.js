@@ -8,12 +8,12 @@ const getCards = (req, res, next) => {
     .then((card) => res.send({ data: card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequest('Некоректный запрос'));
+        return next(new BadRequest('Некоректный запрос'));
       }
       if (err.name === 'CastError') {
-        next(new NotFoundError('Переданы невалидные данные'));
+        return next(new NotFoundError('Переданы невалидные данные'));
       }
-      next(err);
+      return next(err);
     });
 };
 const createCard = (req, res, next) => {
@@ -23,16 +23,17 @@ const createCard = (req, res, next) => {
     .then((card) => res.status(201).send({ data: card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequest('Некоректный запрос'));
+        return next(new BadRequest('Некоректный запрос'));
       }
       if (err.name === 'CastError') {
-        next(new NotFoundError('Переданы невалидные данные'));
+        return next(new NotFoundError('Переданы невалидные данные'));
       }
-      next(err);
+      return next(err);
     });
 };
 const deletCard = (req, res, next) => {
-  Card.findByIdAndDelete(req.params.cardId)
+  const id = req.params.cardId;
+  Card.findById(req.params.cardId)
     .then((card) => {
       if (!card) {
         console.log(card);
@@ -41,17 +42,18 @@ const deletCard = (req, res, next) => {
       if (card.owner.toString() !== req.user._id.toString()) {
         throw new RejectedErr('Нельзя удалить карточку другого пользователя');
       }
+      Card.deleteOne({ id });
       return res.send({ data: card });
     })
     .catch((err) => {
       console.log(err.name);
       if (err.name === 'ValidationError') {
-        next(new BadRequest('Некоректный запрос'));
+        return next(new BadRequest('Некоректный запрос'));
       }
       if (err.name === 'CastError') {
-        next(new NotFoundError('Переданы невалидные данные'));
+        return next(new NotFoundError('Переданы невалидные данные'));
       }
-      next(err);
+      return next(err);
     });
 };
 const pushLike = (req, res, next) => {
@@ -67,15 +69,15 @@ const pushLike = (req, res, next) => {
     .catch((err) => {
       console.log(err.name);
       if (err.name === 'ValidationError') {
-        next(new BadRequest('Некоректный запрос'));
+        return next(new BadRequest('Некоректный запрос'));
       }
       if (err.name === 'CastError') {
-        next(new NotFoundError('Переданы невалидные данные'));
+        return next(new NotFoundError('Переданы невалидные данные'));
       }
       if (err.name === 'TypeError') {
-        next(new NotFoundError('Переданы невалидные данные'));
+        return next(new NotFoundError('Переданы невалидные данные'));
       }
-      next(err);
+      return next(err);
     });
 };
 const deletLike = (req, res, next) => {
@@ -89,12 +91,12 @@ const deletLike = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequest('Некоректный запрос'));
+        return next(new BadRequest('Некоректный запрос'));
       }
       if (err.name === 'CastError') {
-        next(new NotFoundError('Переданы невалидные данные'));
+        return next(new NotFoundError('Переданы невалидные данные'));
       }
-      next(err);
+      return next(err);
     });
 };
 
