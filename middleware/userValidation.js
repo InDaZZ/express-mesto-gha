@@ -1,6 +1,6 @@
 const { Joi, celebrate } = require('celebrate');
 
-const regex = /(https?:\/\/)(www)?([a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=])*#?$/;
+const regex = require('../utils/constans');
 
 const getUserValidation = celebrate({
   params: Joi.object().keys({ userId: Joi.string().required().hex() }),

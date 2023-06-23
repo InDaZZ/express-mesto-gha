@@ -1,12 +1,9 @@
 const mongoose = require('mongoose');
-
 const bcrypt = require('bcrypt');
-
 const isEmail = require('validator/lib/isEmail');
 const AuthorizationError = require('../error/authorization-err');
 const InvalidTokenErr = require('../error/invalid-token-err');
-
-const regex = /https?:\/\/(www\.)?[a-zA-Z0-9-._~:/?#@!$&'()*+,;=]{1,256}\.[a-zA-Z0-9]{1,2}\b([a-zA-Z0-9-._~:/?#@!$&'()*+,;=]*)/;
+const regex = require('../utils/constans');
 
 const userSchema = new mongoose.Schema({
   email: {

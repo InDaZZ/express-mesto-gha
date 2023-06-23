@@ -24,12 +24,12 @@ const getUserMe = (req, res, next) => {
     .catch((err) => {
       console.log(err);
       if (err.name === 'ValidationError') {
-        next(new BadRequest('Некоректный запрос'));
+        return next(new BadRequest('Некоректный запрос'));
       }
       if (err.name === 'CastError') {
-        next(new NotFoundError('Пользователь не найден'));
+        return next(new NotFoundError('Пользователь не найден'));
       }
-      next(err);
+      return next(err);
     });
 };
 const getUser = (req, res, next) => {
@@ -43,12 +43,12 @@ const getUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequest('Некоректный запрос'));
+        return next(new BadRequest('Некоректный запрос'));
       }
       if (err.name === 'CastError') {
-        next(new NotFoundError('Нет пользователя с таким id'));
+        return next(new NotFoundError('Нет пользователя с таким id'));
       }
-      next(err);
+      return next(err);
     });
 };
 const creatUser = (req, res, next) => {
@@ -75,15 +75,15 @@ const creatUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        next(new Emailexists('Email уже исользуется'));
+        return next(new Emailexists('Email уже исользуется'));
       }
       if (err.name === 'ValidationError') {
-        next(new BadRequest('Некоректный запрос'));
+        return next(new BadRequest('Некоректный запрос'));
       }
       if (err.name === 'CastError') {
-        next(new NotFoundError('Переданы невалидные данные'));
+        return next(new NotFoundError('Переданы невалидные данные'));
       }
-      next(err);
+      return next(err);
     });
 };
 
@@ -120,12 +120,12 @@ const updateUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequest('Некоректный запрос'));
+        return next(new BadRequest('Некоректный запрос'));
       }
       if (err.name === 'CastError') {
-        next(new NotFoundError('Переданы невалидные данные'));
+        return next(new NotFoundError('Переданы невалидные данные'));
       }
-      next(err);
+      return next(err);
     });
 };
 
@@ -136,12 +136,12 @@ const updateUserAvatar = (req, res, next) => {
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new Emailexists('Некоректный запрос'));
+        return next(new Emailexists('Некоректный запрос'));
       }
       if (err.name === 'CastError') {
-        next(new NotFoundError('Переданы невалидные данные'));
+        return next(new NotFoundError('Переданы невалидные данные'));
       }
-      next(err);
+      return next(err);
     });
 };
 

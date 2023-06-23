@@ -41,8 +41,8 @@ const deletCard = (req, res, next) => {
       if (card.owner.toString() !== req.user._id.toString()) {
         throw new RejectedErr('Нельзя удалить карточку другого пользователя');
       }
-      res.send({ data: card });
-      return Card.deleteOne(card._id);
+      Card.deleteOne(card._id)
+        .then(() => res.send({ data: card }));
     })
     .catch((err) => {
       console.log(err.name);
