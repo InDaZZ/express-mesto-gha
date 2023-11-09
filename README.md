@@ -1,17 +1,12 @@
-[![Tests](../../actions/workflows/tests-13-sprint.yml/badge.svg)](../../actions/workflows/tests-13-sprint.yml) [![Tests](../../actions/workflows/tests-14-sprint.yml/badge.svg)](../../actions/workflows/tests-14-sprint.yml)
-# Проект Mesto фронтенд + бэкенд
-
-
-## Директории
-
-`/routes` — папка с файлами роутера  
-`/controllers` — папка с файлами контроллеров пользователя и карточки   
-`/models` — папка с файлами описания схем пользователя и карточки  
-  
-Остальные директории вспомогательные, создаются при необходимости разработчиком
+# Проект Mesto-backend
+### Реализовано: Связанные схемы пользователя и карточки/Роутинг/Централизованая обработка ошибок
+### Технологии и инструменты  
+1. Node.js
+2. Express
+3. MongoDb
 
 ## Запуск проекта
-
+1.запустить свервер
 `npm run start` — запускает сервер   
 `npm run dev` — запускает сервер с hot-reload
 
