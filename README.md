@@ -7,7 +7,6 @@
 4. json web token
 
 ## Запуск проекта
-1.запустить свервер
 `npm run start` — запускает сервер   
 `npm run dev` — запускает сервер с hot-reload
 
