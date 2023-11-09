@@ -4,6 +4,7 @@
 1. Node.js
 2. Express
 3. MongoDb
+4. json web token
 
 ## Запуск проекта
 1.запустить свервер
